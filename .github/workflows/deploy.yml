@@ -24,6 +24,9 @@ jobs:
       - name: Install dependencies 📦
         run: npm ci
 
+      - name: Install terser (required for build) 📦
+        run: npm install terser --save-dev
+
       - name: Generate questions 📝
         run: npm run generate-questions
 
