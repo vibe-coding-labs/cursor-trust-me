@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://cc11001100.github.io/cursor-trust-me",
+  "homepage": "https://cursor-home.github.io/cursor-trust-me",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

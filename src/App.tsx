@@ -29,7 +29,7 @@ function App() {
               </NavLink>
             </nav>
             <a 
-              href="https://github.com/cc11001100/cursor-trust-me" 
+              href="https://github.com/cursor-home/cursor-trust-me" 
               target="_blank" 
               rel="noopener noreferrer"
               className="github-link"
