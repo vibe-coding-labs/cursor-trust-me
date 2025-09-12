@@ -5,94 +5,94 @@ import md5 from 'md5';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-console.log('开始生成Cursor与其他工具比较的问题...');
+console.log('Starting to generate comparison questions between Cursor and other tools...');
 
-// 定义比较问题的模板
+// Define comparison question templates
 const templates = [
-  "Cursor和{tool}哪个更好用？",
-  "应该选择Cursor还是{tool}进行代码开发？",
-  "Cursor与{tool}相比有什么优势？",
-  "对于{task}任务，Cursor和{tool}哪个更适合？",
-  "Cursor和{tool}哪个更值得购买？",
-  "作为一个{role}，我应该使用Cursor还是{tool}？",
-  "Cursor和{tool}在{aspect}方面有什么区别？",
-  "有人说{tool}比Cursor好，这是真的吗？",
-  "如果我现在使用{tool}，值得切换到Cursor吗？",
-  "Cursor和{tool}在处理{language}代码时哪个更高效？",
-  "从{perspective}角度看，Cursor和{tool}哪个更胜一筹？",
-  "初学者应该选择Cursor还是{tool}？",
-  "Cursor与{tool}相比，在{feature}功能上如何？",
-  "我想提高编码效率，应该选择Cursor还是{tool}？",
-  "Cursor和{tool}的价格与性能对比如何？",
-  "在{os}系统上，Cursor和{tool}哪个表现更好？",
-  "Cursor能完全替代{tool}吗？",
-  "专业开发者更喜欢Cursor还是{tool}？为什么？",
-  "Cursor相比{tool}有哪些独特功能？",
-  "如果我已经熟悉{tool}，学习使用Cursor难吗？",
+  "Which is better to use, Cursor or {tool}?",
+  "Should I choose Cursor or {tool} for code development?",
+  "What advantages does Cursor have compared to {tool}?",
+  "For {task} tasks, which is more suitable, Cursor or {tool}?",
+  "Which is more worth buying, Cursor or {tool}?",
+  "As a {role}, should I use Cursor or {tool}?",
+  "What are the differences between Cursor and {tool} in terms of {aspect}?",
+  "Some people say {tool} is better than Cursor, is this true?",
+  "If I'm currently using {tool}, is it worth switching to Cursor?",
+  "Which is more efficient when handling {language} code, Cursor or {tool}?",
+  "From a {perspective} perspective, which is better, Cursor or {tool}?",
+  "Should beginners choose Cursor or {tool}?",
+  "How does Cursor compare to {tool} in terms of {feature} functionality?",
+  "I want to improve coding efficiency, should I choose Cursor or {tool}?",
+  "How do Cursor and {tool} compare in terms of price and performance?",
+  "On {os} systems, which performs better, Cursor or {tool}?",
+  "Can Cursor completely replace {tool}?",
+  "Do professional developers prefer Cursor or {tool}? Why?",
+  "What unique features does Cursor have compared to {tool}?",
+  "If I'm already familiar with {tool}, is it difficult to learn Cursor?",
   
-  // 新增模板：选择性问题
-  "{tool}好还是Cursor好？",
-  "在做{project_type}项目时，{tool}和Cursor哪个更高效？",
-  "我是{experience_level}程序员，应该用Cursor还是{tool}？",
-  "全职开发者应该选择{tool}还是Cursor？",
-  "{tool}和Cursor，哪个在{metric}方面表现更佳？",
-  "{tool}和Cursor这两个编辑器你更推荐哪个？",
+  // New templates: Choice questions
+  "Is {tool} or Cursor better?",
+  "When working on {project_type} projects, which is more efficient, {tool} or Cursor?",
+  "I'm a {experience_level} programmer, should I use Cursor or {tool}?",
+  "Should full-time developers choose {tool} or Cursor?",
+  "Between {tool} and Cursor, which performs better in terms of {metric}?",
+  "Between these two editors {tool} and Cursor, which one do you recommend more?",
   
-  // 新增模板：特定场景问题
-  "一个{company_size}企业应该统一使用Cursor还是{tool}？",
-  "在{team_size}人团队中，Cursor和{tool}哪个协作体验更好？",
-  "远程工作时，Cursor和{tool}哪个更适合？",
-  "用Cursor还是{tool}来教授{language}编程更合适？",
+  // New templates: Specific scenario questions
+  "Should a {company_size} company standardize on Cursor or {tool}?",
+  "In a {team_size} team, which has better collaboration experience, Cursor or {tool}?",
+  "When working remotely, which is more suitable, Cursor or {tool}?",
+  "Is it more appropriate to use Cursor or {tool} to teach {language} programming?",
   
-  // 新增模板：比较讨论
-  "{tool}和Cursor各有什么优缺点？",
-  "你能详细比较一下Cursor和{tool}的主要区别吗？",
-  "为什么有人选择Cursor而不是{tool}？",
-  "Cursor和{tool}的社区支持哪个更活跃？",
-  "{tool}和Cursor的市场份额对比如何？",
+  // New templates: Comparison discussions
+  "What are the pros and cons of {tool} and Cursor respectively?",
+  "Can you compare the main differences between Cursor and {tool} in detail?",
+  "Why do some people choose Cursor over {tool}?",
+  "Which has more active community support, Cursor or {tool}?",
+  "How do {tool} and Cursor compare in terms of market share?",
   
-  // 新增模板：功能细节对比
-  "Cursor的{specific_feature}功能比{tool}的如何？",
-  "{tool}的{specific_feature}和Cursor的比，哪个设计更好？",
-  "Cursor和{tool}的快捷键设计哪个更符合直觉？",
-  "Cursor和{tool}的插件生态系统哪个更丰富？",
+  // New templates: Feature detail comparisons
+  "How does Cursor's {specific_feature} feature compare to {tool}'s?",
+  "Between {tool}'s {specific_feature} and Cursor's, which is better designed?",
+  "Which keyboard shortcut design is more intuitive, Cursor's or {tool}'s?",
+  "Which has a richer plugin ecosystem, Cursor or {tool}?",
   
-  // 新增模板：具体用户评价
-  "使用过Cursor和{tool}的开发者更喜欢哪个？",
-  "GitHub上的开发者更推荐Cursor还是{tool}？",
-  "资深{language}开发者更倾向于使用Cursor还是{tool}？",
+  // New templates: Specific user reviews
+  "Which do developers who have used both Cursor and {tool} prefer?",
+  "Do developers on GitHub recommend Cursor or {tool} more?",
+  "Do senior {language} developers tend to use Cursor or {tool} more?",
   
-  // 新增模板：特定AI相关对比
-  "Cursor和{tool}的AI代码补全功能哪个更准确？",
-  "Cursor的AI助手功能比{tool}强在哪里？",
-  "想要更好的AI编程体验，Cursor还是{tool}更合适？",
+  // New templates: Specific AI-related comparisons
+  "Which AI code completion feature is more accurate, Cursor's or {tool}'s?",
+  "Where is Cursor's AI assistant feature stronger than {tool}'s?",
+  "For a better AI programming experience, is Cursor or {tool} more suitable?",
   
-  // 新增模板：具体场景问题
-  "处理大型代码库时，Cursor和{tool}哪个性能更好？",
-  "开发{app_type}应用时，用Cursor还是{tool}效率更高？",
-  "编写{code_quality}代码，Cursor和{tool}哪个辅助功能更强？",
+  // New templates: Specific scenario questions
+  "When handling large codebases, which has better performance, Cursor or {tool}?",
+  "When developing {app_type} applications, is using Cursor or {tool} more efficient?",
+  "For writing {code_quality} code, which has stronger assistance features, Cursor or {tool}?",
   
-  // 新增模板：深度对比问题
-  "Cursor和{tool}在代码导航方面有什么关键区别？",
-  "Cursor和{tool}的debug功能哪个设计得更直观？",
-  "Cursor比{tool}的核心优势是什么？值得切换吗？",
+  // New templates: Deep comparison questions
+  "What are the key differences between Cursor and {tool} in code navigation?",
+  "Which debug functionality is designed more intuitively, Cursor's or {tool}'s?",
+  "What are Cursor's core advantages over {tool}? Is it worth switching?",
   
-  // 新增模板：行业垂直领域问题
-  "在{industry}行业，开发者更常用Cursor还是{tool}？",
-  "{industry}公司的技术团队一般用Cursor还是{tool}？",
+  // New templates: Industry vertical questions
+  "In the {industry} industry, do developers more commonly use Cursor or {tool}?",
+  "Do technical teams at {industry} companies generally use Cursor or {tool}?",
   
-  // 新增模板：具体开发流程相关
-  "使用{methodology}开发方法时，Cursor和{tool}哪个配合得更好？",
-  "敏捷团队应该使用Cursor还是{tool}来提高效率？",
+  // New templates: Specific development process related
+  "When using {methodology} development methodology, which works better with it, Cursor or {tool}?",
+  "Should agile teams use Cursor or {tool} to improve efficiency?",
   
-  // 新增模板：多工具组合使用问题
-  "Cursor可以和{tool}一起使用吗？还是只能二选一？",
-  "你会同时安装Cursor和{tool}吗？各自有什么独特用途？",
+  // New templates: Multi-tool combination usage questions
+  "Can Cursor and {tool} be used together? Or must you choose one?",
+  "Would you install both Cursor and {tool}? What unique uses does each have?",
   
-  // 新增模板：开放式探讨
-  "为什么Cursor会被认为比{tool}更适合AI辅助编程？",
-  "{tool}和Cursor各自的目标用户群体有什么不同？",
-  "为什么有经验的开发者可能会从{tool}切换到Cursor？",
+  // New templates: Open-ended discussions
+  "Why is Cursor considered more suitable for AI-assisted programming than {tool}?",
+  "What are the different target user groups for {tool} and Cursor?",
+  "Why might experienced developers switch from {tool} to Cursor?",
 ];
 
 // 与Cursor比较的工具/产品
@@ -129,162 +129,162 @@ const languages = [
   "Terraform", "VHDL", "Verilog", "WebAssembly", "Prolog", "Racket"
 ];
 
-// 任务列表
+// Task list
 const tasks = [
-  "Web开发", "移动应用开发", "机器学习", "数据分析", "游戏开发", "DevOps",
-  "云开发", "后端开发", "前端开发", "全栈开发", "嵌入式系统开发", "系统编程",
-  "跨平台开发", "微服务开发", "区块链开发", "安全开发", "自动化测试",
-  "数据库开发", "API开发", "桌面应用开发", "大数据处理", "物联网开发",
-  "自然语言处理", "图像处理", "音频处理", "视频处理", "VR/AR开发",
-  "低代码开发", "无代码开发", "网络编程", "Shell脚本开发", "爬虫开发",
-  "自动化运维", "网络安全", "内核开发", "渗透测试", "智能合约开发"
+  "web development", "mobile app development", "machine learning", "data analysis", "game development", "DevOps",
+  "cloud development", "backend development", "frontend development", "full-stack development", "embedded systems development", "systems programming",
+  "cross-platform development", "microservices development", "blockchain development", "security development", "automated testing",
+  "database development", "API development", "desktop application development", "big data processing", "IoT development",
+  "natural language processing", "image processing", "audio processing", "video processing", "VR/AR development",
+  "low-code development", "no-code development", "network programming", "shell scripting", "web scraping",
+  "automation operations", "cybersecurity", "kernel development", "penetration testing", "smart contract development"
 ];
 
-// 用户角色列表
+// User role list
 const roles = [
-  "初学者", "学生", "自学者", "前端开发者", "后端开发者", "全栈开发者",
-  "数据科学家", "机器学习工程师", "游戏开发者", "DevOps工程师", "自由职业者",
-  "创业者", "企业开发团队", "开源贡献者", "系统架构师", "技术经理",
-  "CTO", "技术主管", "Junior开发者", "Senior开发者", "技术博主",
-  "教育工作者", "培训讲师", "软件顾问", "技术面试官", "QA工程师",
-  "数据分析师", "产品经理", "UI/UX设计师", "安全工程师", "网络管理员",
-  "数据库管理员", "系统管理员", "云架构师", "区块链开发者", "移动开发者"
+  "beginner", "student", "self-taught developer", "frontend developer", "backend developer", "full-stack developer",
+  "data scientist", "machine learning engineer", "game developer", "DevOps engineer", "freelancer",
+  "entrepreneur", "enterprise development team", "open source contributor", "system architect", "technical manager",
+  "CTO", "technical lead", "junior developer", "senior developer", "tech blogger",
+  "educator", "training instructor", "software consultant", "technical interviewer", "QA engineer",
+  "data analyst", "product manager", "UI/UX designer", "security engineer", "network administrator",
+  "database administrator", "system administrator", "cloud architect", "blockchain developer", "mobile developer"
 ];
 
-// 比较方面
+// Comparison aspects
 const aspects = [
-  "性能", "易用性", "学习曲线", "社区支持", "插件生态", "AI辅助功能",
-  "代码补全", "代码质量检查", "调试功能", "版本控制集成", "UI设计",
-  "资源消耗", "启动速度", "大文件处理", "多语言支持", "远程开发", "协作功能",
-  "可扩展性", "跨平台兼容性", "文档质量", "主题和定制化",
-  "键盘快捷键", "代码导航", "重构工具", "代码格式化", "语法高亮",
-  "集成终端", "Git集成", "代码片段管理", "代码折叠", "自动保存",
-  "多光标编辑", "拖放支持", "分屏功能", "实时预览", "代码历史",
-  "搜索功能", "替换功能", "项目管理", "任务运行器", "内置测试工具",
-  "实时协作", "远程配对", "语言服务器协议", "智能提示", "代码轮廓",
-  "参数提示", "代码覆盖率", "性能分析", "内存分析", "错误提示"
+  "performance", "ease of use", "learning curve", "community support", "plugin ecosystem", "AI assistance features",
+  "code completion", "code quality checking", "debugging features", "version control integration", "UI design",
+  "resource consumption", "startup speed", "large file handling", "multi-language support", "remote development", "collaboration features",
+  "extensibility", "cross-platform compatibility", "documentation quality", "themes and customization",
+  "keyboard shortcuts", "code navigation", "refactoring tools", "code formatting", "syntax highlighting",
+  "integrated terminal", "Git integration", "code snippet management", "code folding", "auto-save",
+  "multi-cursor editing", "drag and drop support", "split view functionality", "live preview", "code history",
+  "search functionality", "replace functionality", "project management", "task runner", "built-in testing tools",
+  "real-time collaboration", "remote pairing", "language server protocol", "intelligent suggestions", "code outline",
+  "parameter hints", "code coverage", "performance profiling", "memory analysis", "error hints"
 ];
 
-// 视角列表
+// Perspective list
 const perspectives = [
-  "效率", "成本", "团队协作", "学习路径", "生产力", "生态系统",
-  "长期发展", "技术支持", "安全性", "代码质量", "自动化程度", "互操作性",
-  "可维护性", "可扩展性", "兼容性", "稳定性", "创新性", "易用性",
-  "灵活性", "可靠性", "性价比", "学习成本", "迁移成本", "维护成本",
-  "集成能力", "定制能力", "社区活跃度", "商业支持", "开发体验", "用户体验"
+  "efficiency", "cost", "team collaboration", "learning path", "productivity", "ecosystem",
+  "long-term development", "technical support", "security", "code quality", "automation level", "interoperability",
+  "maintainability", "scalability", "compatibility", "stability", "innovation", "usability",
+  "flexibility", "reliability", "cost-effectiveness", "learning cost", "migration cost", "maintenance cost",
+  "integration capability", "customization capability", "community activity", "commercial support", "developer experience", "user experience"
 ];
 
-// 功能列表
+// Feature list
 const features = [
-  "代码补全", "AI辅助", "实时协作", "Git集成", "调试工具", "代码重构",
-  "性能分析", "测试集成", "代码片段", "项目管理", "代码格式化", "语法高亮",
-  "智能提示", "命令面板", "终端集成", "扩展市场", "多窗口支持", "远程开发",
-  "多光标编辑", "文件树导航", "搜索与替换", "代码折叠", "拆分视图",
-  "版本控制", "代码片段管理", "任务运行器", "代码导航", "语义检索",
-  "代码标记", "面包屑导航", "拼写检查", "定义跳转", "引用查找", "符号搜索",
-  "参数提示", "类型提示", "错误诊断", "快速修复", "代码转换", "代码生成",
-  "集成终端", "WebView预览", "断点调试", "变量检查", "调用堆栈", "热重载"
+  "code completion", "AI assistance", "real-time collaboration", "Git integration", "debugging tools", "code refactoring",
+  "performance analysis", "test integration", "code snippets", "project management", "code formatting", "syntax highlighting",
+  "intelligent suggestions", "command palette", "terminal integration", "extension marketplace", "multi-window support", "remote development",
+  "multi-cursor editing", "file tree navigation", "search and replace", "code folding", "split view",
+  "version control", "code snippet management", "task runner", "code navigation", "semantic search",
+  "code marking", "breadcrumb navigation", "spell checking", "go to definition", "find references", "symbol search",
+  "parameter hints", "type hints", "error diagnostics", "quick fixes", "code transformation", "code generation",
+  "integrated terminal", "WebView preview", "breakpoint debugging", "variable inspection", "call stack", "hot reload"
 ];
 
-// 操作系统列表
+// Operating system list
 const os = [
   "Windows", "macOS", "Linux", "ChromeOS", "Ubuntu", "Fedora",
-  "Debian", "CentOS", "Arch Linux", "Windows WSL", "Docker容器",
+  "Debian", "CentOS", "Arch Linux", "Windows WSL", "Docker containers",
   "Windows 11", "Windows 10", "macOS Sonoma", "macOS Ventura", "iOS",
   "Android", "openSUSE", "Gentoo", "FreeBSD", "OpenBSD", "NetBSD",
   "Manjaro", "Pop!_OS", "Elementary OS", "Linux Mint", "Kali Linux",
   "Raspberry Pi OS", "NixOS", "Alpine Linux", "Clear Linux", "Solaris"
 ];
 
-// 新增：经验水平
+// Experience levels
 const experienceLevels = [
-  "初级", "入门级", "中级", "高级", "资深", "专家级", "新手",
-  "有3年经验的", "有5年以上经验的", "有10年经验的", "刚入行的",
-  "经验丰富的", "专业", "业余", "兼职", "全职", "自学成才的",
-  "科班出身的", "经验不足的", "经验老道的", "刚毕业的", "职场新人",
-  "有企业级项目经验的", "接触开源项目的", "创业型"
+  "junior", "entry-level", "intermediate", "senior", "expert", "professional", "novice",
+  "3-year experienced", "5+ year experienced", "10-year experienced", "fresh",
+  "experienced", "professional", "amateur", "part-time", "full-time", "self-taught",
+  "formally trained", "inexperienced", "seasoned", "recent graduate", "newcomer",
+  "enterprise project experienced", "open source contributor", "startup-oriented"
 ];
 
-// 新增：项目类型
+// Project types
 const projectTypes = [
-  "企业级应用", "创业项目", "个人项目", "开源项目", "商业软件",
-  "内部工具", "学习项目", "原型开发", "概念验证", "MVP",
-  "大型复杂项目", "小型简单项目", "中等规模项目", "游戏项目",
-  "Web应用", "移动应用", "桌面应用", "混合应用", "微服务架构",
-  "单体应用", "分布式系统", "前端重构", "后端优化", "全栈开发",
-  "遗留系统维护", "代码库迁移", "性能优化", "安全审计", "API开发"
+  "enterprise applications", "startup projects", "personal projects", "open source projects", "commercial software",
+  "internal tools", "learning projects", "prototype development", "proof of concept", "MVP",
+  "large complex projects", "small simple projects", "medium-scale projects", "game projects",
+  "web applications", "mobile applications", "desktop applications", "hybrid applications", "microservices architecture",
+  "monolithic applications", "distributed systems", "frontend refactoring", "backend optimization", "full-stack development",
+  "legacy system maintenance", "codebase migration", "performance optimization", "security audit", "API development"
 ];
 
-// 新增：度量指标
+// Metrics
 const metrics = [
-  "性能", "速度", "响应时间", "资源占用", "启动时间", "关闭时间",
-  "内存使用", "CPU使用率", "磁盘占用", "电池寿命", "热量产生",
-  "代码完成准确度", "语法检查准确性", "语义分析深度", "项目加载时间",
-  "大文件处理能力", "多文件搜索速度", "代码导航流畅度", "崩溃频率",
-  "更新频率", "bug修复速度", "新功能迭代速度", "学习曲线陡峭度",
-  "上手速度", "使用满意度", "推荐意愿", "留存率", "市场份额"
+  "performance", "speed", "response time", "resource usage", "startup time", "shutdown time",
+  "memory usage", "CPU utilization", "disk usage", "battery life", "heat generation",
+  "code completion accuracy", "syntax checking accuracy", "semantic analysis depth", "project loading time",
+  "large file handling capability", "multi-file search speed", "code navigation smoothness", "crash frequency",
+  "update frequency", "bug fix speed", "new feature iteration speed", "learning curve steepness",
+  "onboarding speed", "user satisfaction", "recommendation willingness", "retention rate", "market share"
 ];
 
-// 新增：企业规模
+// Company sizes
 const companySizes = [
-  "初创", "小型", "中型", "大型", "跨国", "独角兽", "500强",
-  "10人以下", "50人规模", "100人规模", "500人规模", "1000人以上",
-  "快速增长的", "成熟稳定的", "技术驱动型", "全球分布式", "远程优先",
-  "混合办公", "传统办公", "科技巨头", "软件公司", "非技术公司",
-  "教育机构", "研究机构", "政府机构", "非盈利组织"
+  "startup", "small", "medium", "large", "multinational", "unicorn", "Fortune 500",
+  "under 10 people", "50-person scale", "100-person scale", "500-person scale", "1000+ people",
+  "rapidly growing", "mature and stable", "technology-driven", "globally distributed", "remote-first",
+  "hybrid office", "traditional office", "tech giant", "software company", "non-tech company",
+  "educational institution", "research institution", "government agency", "non-profit organization"
 ];
 
-// 新增：团队规模
+// Team sizes
 const teamSizes = [
-  "个人", "2-3人", "5-10人", "10-20人", "20-50人", "50-100人", "100人以上",
-  "小型", "中型", "大型", "分布式", "远程", "混合", "敏捷", "瀑布式",
-  "跨职能", "单一职能", "多时区", "单一时区", "松散组织", "紧密合作"
+  "individual", "2-3 people", "5-10 people", "10-20 people", "20-50 people", "50-100 people", "100+ people",
+  "small", "medium", "large", "distributed", "remote", "hybrid", "agile", "waterfall",
+  "cross-functional", "single-function", "multi-timezone", "single-timezone", "loosely organized", "closely collaborative"
 ];
 
-// 新增：特定功能
+// Specific features
 const specificFeatures = [
-  "代码补全", "智能提示", "重构工具", "代码导航", "调试器", "集成终端",
-  "AI代码生成", "AI代码修复", "AI代码解释", "AI代码优化", "AI单元测试生成",
-  "语法突出显示", "语义分析", "实时错误检测", "快速修复建议", "代码格式化",
-  "项目管理", "任务运行器", "版本控制集成", "实时协作", "远程开发",
-  "多光标编辑", "拖放支持", "快捷键定制", "主题系统", "扩展系统",
-  "搜索功能", "全局替换", "Git冲突解决", "Git历史查看", "拉取请求查看",
-  "Markdown预览", "HTML预览", "实时预览", "内置WebServer", "性能分析"
+  "code completion", "intelligent suggestions", "refactoring tools", "code navigation", "debugger", "integrated terminal",
+  "AI code generation", "AI code fixing", "AI code explanation", "AI code optimization", "AI unit test generation",
+  "syntax highlighting", "semantic analysis", "real-time error detection", "quick fix suggestions", "code formatting",
+  "project management", "task runner", "version control integration", "real-time collaboration", "remote development",
+  "multi-cursor editing", "drag and drop support", "keyboard shortcut customization", "theme system", "extension system",
+  "search functionality", "global replace", "Git conflict resolution", "Git history viewing", "pull request viewing",
+  "Markdown preview", "HTML preview", "live preview", "built-in web server", "performance profiling"
 ];
 
-// 新增：应用类型
+// Application types
 const appTypes = [
-  "Web前端", "REST API", "GraphQL API", "微服务", "单体应用", "桌面应用",
-  "移动应用", "PWA", "混合应用", "游戏", "命令行工具", "系统工具",
-  "浏览器扩展", "VSCode插件", "Chrome扩展", "WordPress插件", "库/框架",
-  "数据可视化", "人工智能模型", "机器学习应用", "数据分析脚本",
-  "自动化脚本", "网络爬虫", "区块链DApp", "智能合约", "AR/VR应用",
-  "物联网应用", "实时通信系统", "视频处理", "音频处理", "图像处理"
+  "web frontend", "REST API", "GraphQL API", "microservices", "monolithic applications", "desktop applications",
+  "mobile applications", "PWA", "hybrid applications", "games", "command line tools", "system tools",
+  "browser extensions", "VSCode plugins", "Chrome extensions", "WordPress plugins", "libraries/frameworks",
+  "data visualization", "AI models", "machine learning applications", "data analysis scripts",
+  "automation scripts", "web scrapers", "blockchain DApps", "smart contracts", "AR/VR applications",
+  "IoT applications", "real-time communication systems", "video processing", "audio processing", "image processing"
 ];
 
-// 新增：代码质量标准
+// Code quality standards
 const codeQualities = [
-  "简洁", "可维护", "高效", "可扩展", "可读性高", "安全", "健壮",
-  "优化", "标准化", "模块化", "面向对象", "函数式", "声明式", "命令式",
-  "测试覆盖率高", "无副作用", "低耦合", "高内聚", "设计模式遵循",
-  "自文档化", "符合最佳实践", "性能优化", "内存优化", "跨平台兼容"
+  "clean", "maintainable", "efficient", "scalable", "highly readable", "secure", "robust",
+  "optimized", "standardized", "modular", "object-oriented", "functional", "declarative", "imperative",
+  "high test coverage", "side-effect free", "loosely coupled", "highly cohesive", "design pattern compliant",
+  "self-documenting", "best practice compliant", "performance optimized", "memory optimized", "cross-platform compatible"
 ];
 
-// 新增：行业
+// Industries
 const industries = [
-  "金融", "科技", "医疗", "教育", "零售", "制造", "物流", "媒体",
-  "娱乐", "游戏", "旅游", "餐饮", "房地产", "建筑", "能源", "农业",
-  "咨询", "法律", "保险", "电信", "航空", "航天", "国防", "公共服务",
-  "非盈利", "研究", "生物科技", "人工智能", "区块链", "物联网", "云计算"
+  "finance", "technology", "healthcare", "education", "retail", "manufacturing", "logistics", "media",
+  "entertainment", "gaming", "travel", "food service", "real estate", "construction", "energy", "agriculture",
+  "consulting", "legal", "insurance", "telecommunications", "aviation", "aerospace", "defense", "public service",
+  "non-profit", "research", "biotechnology", "artificial intelligence", "blockchain", "IoT", "cloud computing"
 ];
 
-// 新增：开发方法
+// Development methodologies
 const methodologies = [
-  "敏捷", "瀑布", "看板", "Scrum", "精益", "DevOps", "CI/CD",
-  "测试驱动开发", "行为驱动开发", "领域驱动设计", "功能驱动开发",
-  "极限编程", "原型法", "增量开发", "迭代开发", "螺旋模型",
-  "RAD快速应用开发", "持续集成", "持续交付", "持续部署", "GitOps",
-  "Features分支", "主干开发", "Gitflow", "GitHub Flow", "DevSecOps"
+  "agile", "waterfall", "kanban", "Scrum", "lean", "DevOps", "CI/CD",
+  "test-driven development", "behavior-driven development", "domain-driven design", "feature-driven development",
+  "extreme programming", "prototyping", "incremental development", "iterative development", "spiral model",
+  "RAD rapid application development", "continuous integration", "continuous delivery", "continuous deployment", "GitOps",
+  "feature branching", "trunk-based development", "Gitflow", "GitHub Flow", "DevSecOps"
 ];
 
 // 随机选择数组中的一个元素
@@ -374,15 +374,15 @@ function fillTemplate(template) {
   return result;
 }
 
-// 生成一万条提问
+// Generate questions
 function generateQuestions(count) {
-  console.log(`准备生成${count}条问题...`);
+  console.log(`Preparing to generate ${count} questions...`);
   const questions = [];
   const uniqueQuestions = new Set();
   
   let lastLoggedPercent = 0;
   let attempts = 0;
-  const maxAttempts = count * 10; // 设置最大尝试次数，避免无限循环
+  const maxAttempts = count * 10; // Set maximum attempts to avoid infinite loops
   
   while (uniqueQuestions.size < count && attempts < maxAttempts) {
     attempts++;
@@ -391,7 +391,7 @@ function generateQuestions(count) {
     
     if (!uniqueQuestions.has(question)) {
       uniqueQuestions.add(question);
-      const id = md5(question); // 使用md5作为唯一标识
+      const id = md5(question); // Use md5 as unique identifier
       
       questions.push({
         id,
@@ -401,47 +401,47 @@ function generateQuestions(count) {
         marked: false
       });
       
-      // 每生成5%的问题打印一次进度
+      // Print progress every 5% of questions generated
       const percentComplete = Math.floor((uniqueQuestions.size / count) * 100);
       if (percentComplete >= lastLoggedPercent + 5) {
-        console.log(`已生成 ${uniqueQuestions.size}/${count} 条问题 (${percentComplete}%)...`);
+        console.log(`Generated ${uniqueQuestions.size}/${count} questions (${percentComplete}%)...`);
         lastLoggedPercent = percentComplete;
       }
     }
     
-    // 检查是否尝试次数过多但进展很少
+    // Check if too many attempts with little progress
     if (attempts % 10000 === 0) {
-      console.log(`已尝试${attempts}次，生成了${uniqueQuestions.size}条唯一问题`);
+      console.log(`Attempted ${attempts} times, generated ${uniqueQuestions.size} unique questions`);
       if (attempts > 100000 && uniqueQuestions.size < count * 0.8) {
-        console.log(`生成效率过低，可能达不到${count}条唯一问题，将使用当前已生成的问题`);
+        console.log(`Generation efficiency too low, may not reach ${count} unique questions, will use currently generated questions`);
         break;
       }
     }
   }
   
-  console.log(`成功生成 ${questions.length} 条问题！`);
+  console.log(`Successfully generated ${questions.length} questions!`);
   return questions;
 }
 
-// 生成并保存问题
-console.log('开始生成问题...');
-// 增加生成问题数量到15000
+// Generate and save questions
+console.log('Starting question generation...');
+// Increase question count to 15000
 const questions = generateQuestions(15000);
 
-// 确保目录存在
+// Ensure directory exists
 const publicDir = path.resolve(__dirname, '../public');
-console.log(`确保目录存在: ${publicDir}`);
+console.log(`Ensuring directory exists: ${publicDir}`);
 if (!fs.existsSync(publicDir)) {
-  console.log('创建目录...');
+  console.log('Creating directory...');
   fs.mkdirSync(publicDir, { recursive: true });
 }
 
-// 写入文件
+// Write file
 const outputFile = path.resolve(publicDir, 'questions.json');
-console.log(`开始写入文件: ${outputFile}`);
+console.log(`Starting to write file: ${outputFile}`);
 fs.writeFileSync(
   outputFile,
   JSON.stringify(questions, null, 2)
 );
 
-console.log(`成功生成${questions.length}条Cursor比较相关问题，已保存到 public/questions.json`);
+console.log(`Successfully generated ${questions.length} Cursor comparison questions, saved to public/questions.json`);
