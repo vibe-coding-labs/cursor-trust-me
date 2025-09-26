@@ -15,7 +15,7 @@ Cursor 对免费用户有一定的使用限制和风控检查机制，可能导�
 
 ## 在线访问
 
-访问 [https://cursor-home.github.io/cursor-trust-me](https://cursor-home.github.io/cursor-trust-me) 查看应用。
+访问 [https://vibe-coding-labs.github.io/cursor-trust-me/#/random](https://vibe-coding-labs.github.io/cursor-trust-me/#/random) 查看应用。
 
 ## 功能特点
 
@@ -68,8 +68,8 @@ npm run deploy
 
 ## 项目链接
 
-- 在线应用: [https://cursor-home.github.io/cursor-trust-me](https://cursor-home.github.io/cursor-trust-me)
-- GitHub 仓库: [https://github.com/cursor-home/cursor-trust-me](https://github.com/cursor-home/cursor-trust-me)
+- 在线应用: [https://vibe-coding-labs.github.io/cursor-trust-me/#/random](https://vibe-coding-labs.github.io/cursor-trust-me/#/random)
+- GitHub 仓库: [https://github.com/vibe-coding-labs/cursor-trust-me](https://github.com/vibe-coding-labs/cursor-trust-me)
 
 ## 技术栈
 
